@@ -11,6 +11,7 @@ import App from './App'
 
 import "@fontsource/montserrat"
 import "@fontsource/montserrat/500.css"
+import 'remixicon/fonts/remixicon.css'
 import './index.css'
 
 const root = ReactDOM.createRoot(

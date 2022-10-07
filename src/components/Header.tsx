@@ -9,7 +9,7 @@ const Header = () => {
     return (
         <Card shadow="md" withBorder p={20}>
             <div className="flex justify-between">
-                <Text size="xl" color="violet" variant="text" weight={600}>SheyMoney Lite</Text>
+                <Text size="xl" color="violet" variant="text" weight={600}>SHEYMONEY LITE</Text>
                 <Text>{user?.name}</Text>
             </div>
         </Card>

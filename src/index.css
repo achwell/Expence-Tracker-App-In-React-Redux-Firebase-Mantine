@@ -37,9 +37,20 @@ body {
 .loader-parent {
     position: absolute;
     inset: 0;
+    height: 100vh;
     align-items: center;
     justify-content: center;
     display: flex;
     z-index: 99999;
     background-color: rgba(255, 255, 255, 0.499);
+}
+.w-50 {
+    width: 50%;
+}
+.w-100 {
+    width: 100%;
+}
+
+i {
+    font-size: 1.2rem;
 }

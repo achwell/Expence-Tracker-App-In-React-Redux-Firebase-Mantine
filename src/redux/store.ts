@@ -1,5 +1,5 @@
 import {configureStore, ThunkAction, Action} from '@reduxjs/toolkit'
-import {persistStore, persistReducer} from "redux-persist"
+import {persistReducer} from "redux-persist"
 import {combineReducers} from "redux"
 import storage from "redux-persist/lib/storage"
 import thunk from 'redux-thunk'
