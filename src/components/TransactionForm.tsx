@@ -1,47 +1,62 @@
-import React, {FC} from 'react'
+import React, {FC, useEffect} from 'react'
 import {useForm} from "@mantine/form"
-import {Button, Group, Select, Stack, TextInput} from "@mantine/core"
+import {Button, Group, NumberInput, Select, Stack, TextInput} from "@mantine/core"
 import {showNotification} from "@mantine/notifications"
-import {addDoc, collection} from "firebase/firestore"
+import {addDoc, collection, doc, updateDoc} from "firebase/firestore"
+import moment from "moment"
 import TransactionType from "../types/TransactionType"
 import {HideLoading, ShowLoading} from "../redux/alertsSlice"
 import {useAppDispatch, useAppSelector} from "../redux/hooks"
 import {db} from "../firebase"
+import {emptyTransaction} from "../pages/Home"
 
 interface Props {
-    formMode: "add"|"edit"
-    setFormMode :(mode: "add"|"edit") => void
+    transaction: TransactionType
+    setTransaction: (transaction: TransactionType) => void
     setShowForm :(show: boolean) => void
+    getData: () => void
 }
 
-const TransactionForm:FC<Props> = ({formMode, setFormMode, setShowForm}) => {
+const TransactionForm:FC<Props> = ({transaction , setShowForm, getData}) => {
 
     const dispatch = useAppDispatch()
     const {user} = useAppSelector((state) => state.user)
 
-    const transactionForm = useForm<TransactionType>({
-        initialValues: {
-            name: "",
-            type: "expense",
-            amount: 0,
-            date: "",
-            category: "food",
-            reference: ""
+    useEffect(() => {
+        if (transaction.id) {
+            transactionForm.setValues(transaction)
+            transactionForm.setFieldValue("date", moment(transaction.date).format("YYYY-MM-DD"))
         }
+    }, [transaction])
+
+    const transactionForm = useForm<TransactionType>({
+        initialValues: emptyTransaction
     })
 
     async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
         try {
             dispatch(ShowLoading())
-            await addDoc(collection(db, `users/${user?.id}/transactions`), transactionForm.values)
+            const values = transactionForm.values
+            const path = `users/${user?.id}/transactions`
+            let message
+            if (values.id) {
+                message = "Transaction updated successfully"
+                const {id, ...data} = values
+                const docRef = doc(db, path, id)
+                await updateDoc(docRef, data)
+            } else {
+                message = "Transaction added successfully"
+                await addDoc(collection(db, path), values)
+            }
             showNotification({
-                message: "Transaction added successfully",
-                title: "Transaction added successfully",
+                message: message,
+                title: message,
                 color: "green"
             })
             dispatch(HideLoading())
             setShowForm(false)
+            getData()
         } catch (e) {
             dispatch(HideLoading())
             console.error(e)
@@ -77,7 +92,7 @@ const TransactionForm:FC<Props> = ({formMode, setFormMode, setShowForm}) => {
                             placeholder="Select Transaction Category" {...transactionForm.getInputProps("category")}/>
                 </Group>
                 <Group position="apart" grow>
-                    <TextInput label="Amount" placeholder="Enter transaction amount" type="number"
+                    <NumberInput label="Amount" placeholder="Enter transaction amount"
                                name="amount" {...transactionForm.getInputProps("amount")}/>
                     <TextInput label="Date" placeholder="Enter transaction date" type="date"
                                name="date" {...transactionForm.getInputProps("date")}/>
@@ -85,7 +100,7 @@ const TransactionForm:FC<Props> = ({formMode, setFormMode, setShowForm}) => {
                 <TextInput label="Reference" placeholder="Enter transaction reference"
                            name="reference" {...transactionForm.getInputProps("reference")}/>
 
-                <Button color="cyan" type="submit">ADD</Button>
+                <Button color="cyan" type="submit">{transaction.id ? "SAVE" : "ADD"}</Button>
             </Stack>
         </form>
     </div>

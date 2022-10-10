@@ -54,3 +54,6 @@ body {
 i {
     font-size: 1.2rem;
 }
+input {
+    border: 1px solid rgb(79, 83, 83) !important;
+}

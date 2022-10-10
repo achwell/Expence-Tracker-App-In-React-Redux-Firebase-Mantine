@@ -1,28 +1,17 @@
-import React, {FC, ReactNode} from 'react'
+import React, {FC} from 'react'
 import {Group, Table} from "@mantine/core"
 import TransactionType from "../types/TransactionType"
+import moment from "moment";
 
 interface Props {
     transactions: TransactionType[]
+    setTransaction: (transaction: TransactionType) => void
+    setFormMode: (mode: "add" | "edit") => void
+    setShowForm: (show: boolean) => void
+    deleteTransaction: (id: string) => void
 }
 
-const TransactionsTable: FC<Props> = ({transactions}) => {
-
-    const rows = transactions.map(transaction =>
-        <tr key={transaction.id}>
-            <td>{transaction.name}</td>
-            <td>{transaction.type.toUpperCase()}</td>
-            <td>{transaction.amount}</td>
-            <td>{transaction.date}</td>
-            <td>{transaction.category}</td>
-            <td>{transaction.reference}</td>
-            <th>
-                <Group>
-                    <i className="ri-pencil-line"></i>
-                    <i className="ri-delete-bin-line"></i>
-                </Group>
-            </th>
-        </tr>)
+const TransactionsTable: FC<Props> = ({transactions, setTransaction, setFormMode, setShowForm, deleteTransaction}) => {
 
     return (
         <Table verticalSpacing="md" fontSize="sm" striped highlightOnHover>
@@ -38,7 +27,26 @@ const TransactionsTable: FC<Props> = ({transactions}) => {
             </tr>
             </thead>
             <tbody>
-            {rows}
+            {transactions.map((transaction) => (
+                <tr key={Math.random()}>
+                    <td>{transaction.name}</td>
+                    <td>{transaction.type.toUpperCase()}</td>
+                    <td>{transaction.amount}</td>
+                    <td>{moment(transaction.date, "YYYY-MM-DD").format("DD.MM.YYYY")}</td>
+                    <td>{transaction.category}</td>
+                    <td>{transaction.reference}</td>
+                    <th>
+                        <Group>
+                            <i className="ri-pencil-line" onClick={() => {
+                                setTransaction(transaction)
+                                setFormMode("edit")
+                                setShowForm(true)
+                            }}></i>
+                            <i className="ri-delete-bin-line" onClick={() => deleteTransaction(transaction.id!)}></i>
+                        </Group>
+                    </th>
+                </tr>
+            ))}
             </tbody>
         </Table>
     )
