@@ -6,12 +6,11 @@ import moment from "moment";
 interface Props {
     transactions: TransactionType[]
     setTransaction: (transaction: TransactionType) => void
-    setFormMode: (mode: "add" | "edit") => void
     setShowForm: (show: boolean) => void
     deleteTransaction: (id: string) => void
 }
 
-const TransactionsTable: FC<Props> = ({transactions, setTransaction, setFormMode, setShowForm, deleteTransaction}) => {
+const TransactionsTable: FC<Props> = ({transactions, setTransaction, setShowForm, deleteTransaction}) => {
 
     return (
         <Table verticalSpacing="md" fontSize="sm" striped highlightOnHover>
@@ -39,7 +38,6 @@ const TransactionsTable: FC<Props> = ({transactions, setTransaction, setFormMode
                         <Group>
                             <i className="ri-pencil-line" onClick={() => {
                                 setTransaction(transaction)
-                                setFormMode("edit")
                                 setShowForm(true)
                             }}></i>
                             <i className="ri-delete-bin-line" onClick={() => deleteTransaction(transaction.id!)}></i>

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Box, Button, Card, Modal} from '@mantine/core'
+import {Box, Button, Card, Group, Modal} from '@mantine/core'
 import {showNotification} from "@mantine/notifications"
 import {collection, deleteDoc, doc, getDocs, orderBy, query, QueryConstraint, where} from "firebase/firestore"
 import {useAppDispatch, useAppSelector} from "../redux/hooks"
@@ -11,17 +11,24 @@ import TransactionsTable from "../components/TransactionsTable"
 import Filters, {FiltersType} from "../components/Filters"
 import TransactionType from "../types/TransactionType"
 import moment from "moment";
+import Analytics from "../components/Analytics";
 
-export const emptyTransaction: TransactionType = {name: "", type: "expense", amount: 0, date: "", category: "food", reference: ""};
+export const emptyTransaction: TransactionType = {
+    name: "",
+    type: "expense",
+    amount: 0,
+    date: "",
+    category: "food",
+    reference: ""
+};
 
 const Home = () => {
 
     const [filters, setFilters] = useState<FiltersType>({frequency: "", dateRange: [null, null], type: ""})
-
     const [transactions, setTransactions] = useState<TransactionType[]>([])
     const [selectedTransaction, setSelectedTransaction] = useState<TransactionType>(emptyTransaction)
     const [showForm, setShowForm] = useState(false)
-    const [formMode, setFormMode] = useState<"add"|"edit">("add")
+    const [view, setView] = useState<"table" | "chart">("table")
     const {user} = useAppSelector((state) => state.user)
 
     const dispatch = useAppDispatch()
@@ -105,25 +112,40 @@ const Home = () => {
             <Header/>
             <div className="container">
                 <Card className="height-100">
-                    <div className="flex justify-between">
+                    <div className="flex justify-between items-end">
                         <Filters filters={filters} setFilters={setFilters} getTransactions={getTransactions}/>
-                        <div><Button color="green" onClick={() => {
-                            setSelectedTransaction(emptyTransaction)
-                            setShowForm(true)
-                            setFormMode("add")
-                        }}>Add Transaction</Button></div>
+                        <Group>
+                            <Button.Group>
+                                <Button
+                                    color="blue"
+                                    variant={view === "table" ? "filled" : "outline"}
+                                    onClick={() => setView("table")}>
+                                    Grid
+                                </Button>
+                                <Button
+                                    color="blue"
+                                    variant={view === "chart" ? "filled" : "outline"}
+                                    onClick={() => setView("chart")}>
+                                    Analytics
+                                </Button>
+                            </Button.Group>
+                            <Button color="green" onClick={() => {
+                                setSelectedTransaction(emptyTransaction)
+                                setShowForm(true)
+                            }}>Add Transaction</Button>
+                        </Group>
                     </div>
-                    <TransactionsTable
+                    {view === "chart" && <Analytics transactions={transactions}/>}
+                    {view === "table" && <TransactionsTable
                         transactions={transactions}
                         setTransaction={setSelectedTransaction}
-                        setFormMode={setFormMode}
                         setShowForm={setShowForm}
                         deleteTransaction={deleteTransaction}
-                    />
+                    />}
                 </Card>
             </div>
             <Modal
-                title={formMode === "add" ? "Add Transaction" : "Edit Transaction"}
+                title={selectedTransaction?.id ? "Edit Transaction" : "Add Transaction"}
                 size="lg"
                 centered
                 opened={showForm}

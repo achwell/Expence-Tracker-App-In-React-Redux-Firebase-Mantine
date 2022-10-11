@@ -59,7 +59,5 @@ input {
 }
 .container {
     height: 85vh;
-}
-.height-100 {
-    height: 100% !important;
+    overflow-y: scroll !important;
 }
