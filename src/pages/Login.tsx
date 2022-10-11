@@ -77,7 +77,7 @@ const Login = () => {
     return (
         <div className="flex h-screen justify-center items-center">
             <Card sx={{width: 400}} shadow="lg" withBorder>
-                <Title order={2} mb={5}>LOGIN</Title>
+                <Title order={2} mb={5} color="grey">SHEYMONEY LOGIN</Title>
                 <Divider variant="dotted" color="grey"/>
                 <form action="" onSubmit={(e) => onSubmit(e)}>
                     <Stack mt={5}>
@@ -85,8 +85,8 @@ const Login = () => {
                                    name="email" {...loginForm.getInputProps("email")}/>
                         <TextInput label="Password" placeholder="Enter your password" type="password"
                                    name="password" {...loginForm.getInputProps("password")}/>
-                        <Button type="submit" color="violet">Login</Button>
-                        <Anchor href="/register">Don't have an account? Register</Anchor>
+                        <Button type="submit" color="teal">Login</Button>
+                        <Anchor href="/register" color="teal">Don't have an account? Register</Anchor>
                     </Stack>
                 </form>
             </Card>

@@ -1,23 +1,31 @@
 .total-transactions {
     box-shadow: 0 0 0 1px #e1e1e1;
     padding: 20px;
+    width: 350px;
+    background-color: #add3eb;
+    border-radius: 5px;
 }
 
 .total-turnover {
     box-shadow: 0 0 0 1px #e1e1e1;
     padding: 20px;
+    width: 350px;
+    background-color: #ebcfad;
+    border-radius: 5px;
 }
 
 .income-categories {
     box-shadow: 0 0 0 1px #e1e1e1;
     padding: 20px;
-    width: 40%;
+    background-color: #d0ddb3;
+    border-radius: 5px;
 }
 
 .expense-categories {
     box-shadow: 0 0 0 1px #e1e1e1;
     padding: 20px;
-    width: 40%;
+    background-color: #98d0c9;
+    border-radius: 5px;
 }
 
 .card-title {

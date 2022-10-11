@@ -53,6 +53,7 @@ body {
 
 i {
     font-size: 1.2rem;
+    cursor: pointer;
 }
 input {
     border: 1px solid rgb(79, 83, 83) !important;

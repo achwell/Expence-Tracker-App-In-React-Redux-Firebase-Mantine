@@ -74,7 +74,7 @@ const Register = () => {
     return (
         <div className="flex h-screen justify-center items-center">
             <Card sx={{width: 400}} shadow="lg" withBorder>
-                <Title order={2} mb={5}>REGISTER</Title>
+                <Title order={2} mb={5} color="grey">SHEYMONEY REGISTER</Title>
                 <Divider variant="dotted" color="grey"/>
                 <form action="" onSubmit={(e) => onSubmit(e)}>
                     <Stack mt={5}>
@@ -84,8 +84,8 @@ const Register = () => {
                                    name="email" {...registerForm.getInputProps("email")}/>
                         <TextInput label="Password" placeholder="Enter your password" type="password"
                                    name="password" {...registerForm.getInputProps("password")}/>
-                        <Button type="submit" color="violet">Register</Button>
-                        <Anchor href="/login">Already have an account? Log in</Anchor>
+                        <Button type="submit" color="teal">Register</Button>
+                        <Anchor href="/login" color="teal">Already have an account? Log in</Anchor>
                     </Stack>
                 </form>
             </Card>

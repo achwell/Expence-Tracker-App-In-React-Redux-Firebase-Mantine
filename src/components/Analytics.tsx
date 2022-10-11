@@ -86,7 +86,7 @@ const Analytics: FC<Props> = ({transactions}) => {
                 </Group>
             </div>
         </Group>
-        <Group mt={20}>
+        <Group mt={20} grow>
             <div className="income-categories">
                 <h1 className="card-title">Income Categories</h1>
                 <Divider my={20}/>
@@ -102,7 +102,7 @@ const Analytics: FC<Props> = ({transactions}) => {
                         return <div>
                             <p>{category.label}</p>
                             <Progress
-                                size="xl"
+                                size={25}
                                 color="teal"
                                 value={incomeCategoryTransactionsPersentage}
                                 label={incomeCategoryTransactionsPersentage.toFixed(2) + "%"}/>
@@ -125,7 +125,7 @@ const Analytics: FC<Props> = ({transactions}) => {
                         return <div>
                             <p>{category.label}</p>
                             <Progress
-                                size="xl"
+                                size={25}
                                 color="red"
                                 value={expenseCategoryTransactionsPersentage}
                                 label={expenseCategoryTransactionsPersentage.toFixed(2) + "%"}/>

@@ -108,7 +108,7 @@ const Home = () => {
     }
 
     return (
-        <Box>
+        <Box mx={50}>
             <Header/>
             <div className="container">
                 <Card className="height-100">
