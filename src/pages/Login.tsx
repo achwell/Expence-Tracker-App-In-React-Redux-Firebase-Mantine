@@ -75,7 +75,7 @@ const Login = () => {
     }
 
     return (
-        <div className="flex h-screen justify-center items-center">
+        <div className="flex h-screen justify-center items-center auth">
             <Card sx={{width: 400}} shadow="lg" withBorder>
                 <Title order={2} mb={5} color="grey">SHEYMONEY LOGIN</Title>
                 <Divider variant="dotted" color="grey"/>

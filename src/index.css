@@ -62,3 +62,6 @@ input {
     height: 85vh;
     overflow-y: scroll !important;
 }
+.auth {
+    background-color: #008080;
+}
